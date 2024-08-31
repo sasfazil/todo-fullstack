@@ -88,7 +88,7 @@ app.post("/register", async (req, res) => {
     res.send("user already existed");
   }
 });
-// gettasks
+// gettask
 app.get("/", authenticationToken, async (req, res) => {
   const { username } = req;
   const userQuery = `SELECT * FROM users WHERE username='${username}'`;
