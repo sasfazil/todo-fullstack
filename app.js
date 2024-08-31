@@ -2,7 +2,7 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const { v4: uuidv4 } = require("uuid");
 const path = require("path");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const { format } = require("date-fns");
 const cors = require("cors");
 
@@ -93,6 +93,7 @@ app.get("/", authenticationToken, async (req, res) => {
   const { username } = req;
   const userQuery = `SELECT * FROM users WHERE username='${username}'`;
   const getUserDb = await db.get(userQuery);
+  res.send(getUserDb.password);
   const tasksQuery = `
     SELECT *
     FROM tasks
