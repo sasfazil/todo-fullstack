@@ -1,0 +1,23 @@
+### LOGIN
+
+POST http://localhost:3000/login/
+
+### REGISTER
+
+POST http://localhost:3000/register/
+
+### GET TASKS
+
+GET http://localhost:3000/
+
+### ADD TASKS
+
+POST http://localhost:3000/addtask/
+
+### DELETE TASKS
+
+DELETE http://localhost:3000/deletetask/
+
+### UPDATE TASKS
+
+PUT http://localhost:3000/updatetask/
