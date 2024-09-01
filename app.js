@@ -4,18 +4,12 @@ const { v4: uuidv4 } = require("uuid");
 const path = require("path");
 const bcrypt = require("bcryptjs");
 const { format } = require("date-fns");
-const cors = require("cors");
-const bodyParser = require("body-parser");
 
 const { open } = require("sqlite");
 const sqlite3 = require("sqlite3");
 
 const dbPath = path.join(__dirname, "todoApp.db");
 const app = express();
-
-app.use(bodyParser.json({ limit: "30mb", extended: true }));
-app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-app.use(cors());
 app.use(express.json());
 
 let db = null;
