@@ -1,7 +1,6 @@
 ### LOGIN
 
 POST http://localhost:3000/login/
-
 ### REGISTER
 
 POST http://localhost:3000/register/
