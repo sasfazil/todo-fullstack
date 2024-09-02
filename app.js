@@ -15,7 +15,7 @@ const dbPath = path.join(__dirname, "todoApp.db");
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 const corsOptions = {
-  origin: "https://todo-fullstack-kd1i.onrender.com",
+  origin: "https://todo-frontend-7jsn.onrender.com",
   optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
