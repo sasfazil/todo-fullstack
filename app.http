@@ -6,9 +6,11 @@ POST http://localhost:3000/login/
 
 POST http://localhost:3000/register/
 
+
 ### GET TASKS
 
 GET http://localhost:3000/
+
 
 ### ADD TASKS
 
@@ -21,3 +23,4 @@ DELETE http://localhost:3000/deletetask/
 ### UPDATE TASKS
 
 PUT http://localhost:3000/updatetask/
+###

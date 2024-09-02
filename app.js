@@ -1,5 +1,8 @@
 const express = require("express");
+const app = express();
 const jwt = require("jsonwebtoken");
+const bodyParser = require("body-parser");
+const cors = require("cors");
 const { v4: uuidv4 } = require("uuid");
 const path = require("path");
 const bcrypt = require("bcryptjs");
@@ -9,7 +12,9 @@ const { open } = require("sqlite");
 const sqlite3 = require("sqlite3");
 
 const dbPath = path.join(__dirname, "todoApp.db");
-const app = express();
+app.use(bodyParser.json({ limit: "30mb", extended: true }));
+app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
+app.use(cors());
 app.use(express.json());
 
 let db = null;
@@ -91,14 +96,13 @@ app.get("/", authenticationToken, async (req, res) => {
   const { username } = req;
   const userQuery = `SELECT * FROM users WHERE username='${username}'`;
   const getUserDb = await db.get(userQuery);
-  res.send(getUserDb.password);
   const tasksQuery = `
     SELECT *
     FROM tasks
     WHERE userId = '${getUserDb.id}'
   `;
   const tasksDb = await db.all(tasksQuery);
-  res.send(tasksDb);
+  res.send([{ username: username }, tasksDb]);
 });
 
 app.post("/addtask", authenticationToken, async (req, res) => {
@@ -115,7 +119,7 @@ app.post("/addtask", authenticationToken, async (req, res) => {
     '${getUserDb.id}',
     '${title}',
     '${description}',
-    '${"pending"}',
+    '${"Pending..."}',
     '${presentDate}'
     )
   `;
@@ -124,12 +128,7 @@ app.post("/addtask", authenticationToken, async (req, res) => {
 });
 
 app.delete("/deletetask/:id", authenticationToken, async (req, res) => {
-  const { title, description } = req.body;
   const { id } = req.params;
-  const { username } = req;
-  const userQuery = `SELECT * FROM users WHERE username='${username}'`;
-  const getUserDb = await db.get(userQuery);
-
   const taskQuery = `
     DELETE FROM
       tasks
@@ -142,12 +141,13 @@ app.delete("/deletetask/:id", authenticationToken, async (req, res) => {
 
 app.put("/updatetask/:id", authenticationToken, async (req, res) => {
   const { status } = req.body;
+  const updateState = status === "true" ? "Completed" : "Pending...";
   const { id } = req.params;
 
   const taskQuery = `
     UPDATE tasks
     SET 
-    status = '${status}'
+    status = '${updateState}'
     WHERE id = '${id}'
   `;
   await db.run(taskQuery);
